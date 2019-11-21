@@ -41,9 +41,11 @@ trigger OutgrowLeadHandler on Lead (after insert) {
                 contactsToUpdate.add(matchingContacts.get(i));
                 leadsToDelete.add(myOutgrowLeads.get(i).Id);
             }
-            update contactsToUpdate;
-            // delete the duplicate leads
-            Database.delete(leadsToDelete);
+            if (!contactsToUpdate.isEmpty()) {
+                update contactsToUpdate;
+                // delete the duplicate leads
+                Database.delete(leadsToDelete);
+            }
         }
     }
 }
